@@ -2,10 +2,13 @@
   "name": "vux-form",
   "version": "0.1.0",
   "private": true,
+  "main": "lib/vux-form.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:app": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build:lib": "vue-cli-service build --target lib --name vux-form --dest lib src/index.js",
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "async-validator": "^1.11.5",
