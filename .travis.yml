@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "8"
 script:
-  - npm run build:app
+  - npm run build:demo
 
 after_script:
   - git add .
