@@ -55,27 +55,25 @@ export default {
   },
   data() {
     return {
-      fields: []
+      fields: [],
     };
-  },
-  watch: {
-    model: {
-      deep: true,
-      handler(val) {
-        console.log('model change:', val);
-      },
-    }
   },
   methods: {
     submit(cb) {
-      console.log("form submit");
       this.validate(cb);
     },
     validate(cb) {
-      const { fields } = this;
+      const { fields } = this
+      let valid = true
+      let count = 0
+      let invalidFields = {}
       fields.forEach(field => {
         field.validate((message, field) => {
-          cb(message, field);
+          if (message) valid = false
+          invalidFields = Object.assign({}, invalidFields, field)
+          if (typeof cb === 'function' && ++count === fields.length) {
+            cb(valid, invalidFields);
+          }
         });
       });
     },
@@ -86,7 +84,7 @@ export default {
       if (field.prop) {
         this.fields.splice(this.fields.indexOf(field), 1);
       }
-    }
+    },
   }
 };
 </script>

@@ -45,22 +45,24 @@ export default {
     props: Object,
     events: Object,
     rules: [Object, Array],
-    required: Boolean
+    required: Boolean,
+    message: String,
   },
   computed: {
     fieldComponent() {
-      const { component, type } = this;
+      const { component, type } = this
       if (component) {
-        return component;
+        return component
       }
-      return components[type];
+      return components[type]
     },
     isRequired() {
-      const rules = this.rules;
+      const { rules, required } = this
       if (rules && rules.length) {
-        return rules.every(rule => rule.required)
+        const rulesRequired = rules.every(rule => rule.required)
+        return rulesRequired || required
       }
-      return this.required;
+      return required;
     },
     modelValue() {
       return this.form.model[this.prop]
@@ -69,6 +71,8 @@ export default {
   watch: {
     fieldValue(val) {
       this.validate()
+      this.$emit('on-change', val)
+      this.form.model[this.prop] = val
     },
     modelValue(val) {
       this.fieldValue = val
@@ -78,42 +82,47 @@ export default {
     return {
       fieldValue: this.value || this.form.model[this.prop],
       validateState: "",
-      validateMessage: ""
+      validateMessage: this.message,
     };
   },
   methods: {
     getRules() {
-      const selfRules = this.rules || [];
+      const selfRules = this.rules || []
       const requiredRule =
-        this.isRequired !== undefined ? { required: !!this.isRequired } : [];
+        this.isRequired !== undefined ? { required: !!this.isRequired } : []
+      if (this.message && this.isRequired) {
+        requiredRule.message = this.message
+      }
       return selfRules.some(rules => rules.required)
         ? [].concat(selfRules)
-        : [].concat(selfRules, requiredRule);
+        : [].concat(selfRules, requiredRule)
     },
     validate(cb) {
-      const rules = this.getRules();
+      const rules = this.getRules()
 
-      const descriptor = {};
-      descriptor[this.prop] = rules;
+      const descriptor = {}
+      descriptor[this.prop] = rules
 
-      const validator = new AsyncValidator(descriptor);
+      const validator = new AsyncValidator(descriptor)
 
-      const model = {};
-      model[this.prop] = this.fieldValue;
+      const model = {}
+      model[this.prop] = this.fieldValue
 
       validator.validate(
         model,
         { firstFields: true },
         (errors, invalidFields) => {
-          this.validateState = errors ? "error" : "success";
-          this.validteMessage = errors ? errors[0].message : "";
-          cb(this.validteMessage, invalidFields);
+          this.validateState = errors ? "error" : "success"
+          this.validteMessage = errors ? errors[0].message : ""
+          cb(this.validteMessage, invalidFields)
         }
       );
     },
   },
   created() {
     this.form.addField(this)
+  },
+  mounted() {
   },
   beforeDestroy() {
     this.form.removeField(this)
@@ -137,7 +146,7 @@ export default {
   }
   &.is-required {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     &::before {
       content: "*";
       display: inline-block;
@@ -146,7 +155,7 @@ export default {
       padding-top: 12px;
       color: red;
     }
-    & > * {
+    .weui-cell {
       flex: 1;
     }
   }

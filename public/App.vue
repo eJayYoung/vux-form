@@ -9,7 +9,7 @@
             prop="aa"
             placeholder="请输入"
             required
-            :rules="[]"
+            message="输入框是必填的噢"
           ></vux-form-field>
           <vux-form-field
             type="textarea"
@@ -29,6 +29,7 @@
           <vux-form-field
             required
             prop="dd"
+            message="下拉是必填的噢"
           >
             <popup-radio title="PopupRadio" :options="options" v-model="formData.dd"></popup-radio>
           </vux-form-field>
@@ -57,7 +58,7 @@ export default {
   data() {
     return {
       formData: {
-        aa: "hello ejay",
+        aa: "",
         bb: "Talk is cheap, show me the code",
         cc: 123,
         dd: '',
@@ -96,7 +97,10 @@ export default {
   methods: {
     submit() {
       this.$refs.form.submit((valid, field) => {
-        console.log('submit result:', valid, field)
+        if (!valid) {
+          const msg = field[Object.keys(field)[0]][0].message
+          this.$vux.toast.text(msg)
+        }
       });
     },
   }
