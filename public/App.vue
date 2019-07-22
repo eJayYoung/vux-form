@@ -98,8 +98,10 @@ export default {
     submit() {
       this.$refs.form.submit((valid, field) => {
         if (!valid) {
-          const msg = field[Object.keys(field)[0]][0].message
+          const msg = Object.values(field)[0][0].message
           this.$vux.toast.text(msg)
+        } else {
+          this.$vux.toast.text('sumbit handler: valid success')
         }
       });
     },
