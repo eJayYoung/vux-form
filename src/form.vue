@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      fields: [],
+      formFields: [],
     };
   },
   methods: {
@@ -63,26 +63,40 @@ export default {
       this.validate(cb);
     },
     validate(cb) {
-      const { fields } = this
+      let promise;
+      // if no callback, return promise
+      if (typeof cb !== 'function' && window.Promise) {
+        promise = new window.Promise((resolve, reject) => {
+          cb = function(valid) {
+            valid ? resolve(valid) : reject(valid);
+          };
+        });
+      }
+
+      const { formFields } = this
       let valid = true
       let count = 0
       let invalidFields = {}
-      fields.forEach(field => {
+      formFields.forEach(field => {
         field.validate((message, field) => {
           if (message) valid = false
           invalidFields = Object.assign({}, invalidFields, field)
-          if (typeof cb === 'function' && ++count === fields.length) {
+          if (typeof cb === 'function' && ++count === formFields.length) {
             cb(valid, invalidFields);
           }
         });
       });
+
+      if (promise) {
+        return promise;
+      }
     },
     addField(field) {
-      this.fields.push(field);
+      this.formFields.push(field);
     },
     removeField(field) {
       if (field.prop) {
-        this.fields.splice(this.fields.indexOf(field), 1);
+        this.formFields.splice(this.formFields.indexOf(field), 1);
       }
     },
   }
