@@ -99,7 +99,7 @@ export default {
     },
     validate(cb) {
       const rules = this.getRules()
-
+      
       const descriptor = {}
       descriptor[this.prop] = rules
 
@@ -146,7 +146,7 @@ export default {
   }
   &.is-required {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     &::before {
       content: "*";
       display: inline-block;
@@ -155,7 +155,7 @@ export default {
       padding-top: 12px;
       color: red;
     }
-    .weui-cell {
+    .weui-cell, .vux-cell-box, .vux-uploader {
       flex: 1;
     }
   }
