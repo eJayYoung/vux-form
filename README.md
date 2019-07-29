@@ -1,5 +1,12 @@
 # vux-form
 
+## TodoList
+
+ - [x] 支持必填校验
+ - [] 支持类型校验
+ - [] 支持前置校验（针对联动逻辑）
+
+
 ## Project setup
 ```
 yarn install

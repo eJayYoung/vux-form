@@ -33,6 +33,14 @@
           >
             <popup-radio title="PopupRadio" :options="options" v-model="formData.dd"></popup-radio>
           </vux-form-field>
+          <vux-form-field
+            required
+            prop="ee"
+            message="Picker是必填的噢"
+            :rules="pickerRules"
+          >
+            <popup-picker title="PopupPicker" :data="pickerOptions" v-model="formData.ee" show-name></popup-picker>
+          </vux-form-field>
         </group>
       </vux-form>
       <group>
@@ -44,7 +52,7 @@
 
 <script>
 import { VuxForm, VuxFormField } from "../src";
-import { XButton, Group, PopupRadio } from "vux";
+import { XButton, Group, PopupRadio, PopupPicker } from "vux";
 
 export default {
   name: "app",
@@ -54,14 +62,16 @@ export default {
     XButton,
     Group,
     PopupRadio,
+    PopupPicker,
   },
   data() {
     return {
       formData: {
-        aa: "",
+        aa: "123",
         bb: "Talk is cheap, show me the code",
         cc: 123,
-        dd: '',
+        dd: 'A',
+        ee: ['A'],
       },
       formSchema: {
         groups: [
@@ -92,6 +102,17 @@ export default {
         ]
       },
       options: ['A', 'B', 'C'],
+      pickerOptions: [['A', 'B']],
+      pickerRules: [
+        {
+          transform(value) {
+            if (Array.isArray(value)) {
+              return value[0];
+            }
+            return value
+          }
+        }
+      ],
     };
   },
   methods: {
