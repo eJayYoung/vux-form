@@ -1,4 +1,13 @@
-# 0.1.0 (2019-07-22)
+## [0.1.1](https://github.com/eJayYoung/vux-form/compare/v0.1.0...v0.1.1) (2019-08-01)
+
+
+### Bug Fixes
+
+* 异步更新fieldValue ([0aeac7b](https://github.com/eJayYoung/vux-form/commit/0aeac7b))
+
+
+
+# [0.1.0](https://github.com/eJayYoung/vux-form/compare/60c7504...v0.1.0) (2019-07-22)
 
 
 ### Features
