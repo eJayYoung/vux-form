@@ -75,14 +75,10 @@ export default {
       this.form.model[this.prop] = val
     },
     modelValue(val) {
-      if (val) {
-        this.fieldValue = val
-      }
+      this.fieldValue = val
     },
     value(val) {
-      if (val) {
-        this.fieldValue = val;
-      }
+      this.fieldValue = val;
     },
   },
   data() {
