@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/eJayYoung/vux-form/compare/v0.1.1...v0.1.2) (2019-08-06)
+
+
+### Bug Fixes
+
+* undefined modelValue update to fieldValue ([64732a5](https://github.com/eJayYoung/vux-form/commit/64732a5))
+
+
+
 ## [0.1.1](https://github.com/eJayYoung/vux-form/compare/v0.1.0...v0.1.1) (2019-08-01)
 
 
