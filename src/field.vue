@@ -13,6 +13,7 @@
         :placeholder="placeholder"
         :title="title"
         :required="isRequired"
+        :ref="`vux${type}`"
         v-model="fieldValue"
         v-bind="props"
         v-on="events"
@@ -26,15 +27,15 @@ import components from './components'
 import mixin from './mixin'
 
 export default {
-  name: "VuxFormField",
-  inject: [ 'form' ],
+  name: 'VuxFormField',
+  inject: ['form'],
   components: {
     ...Object.values(Array.from(components))
   },
-  mixins: [ mixin ],
+  mixins: [mixin],
   model: {
-    prop: "value",
-    event: "on-change"
+    prop: 'value',
+    event: 'on-change'
   },
   props: {
     prop: String,
@@ -46,7 +47,7 @@ export default {
     events: Object,
     rules: [Object, Array],
     required: Boolean,
-    message: String,
+    message: String
   },
   computed: {
     fieldComponent() {
@@ -62,11 +63,11 @@ export default {
         const rulesRequired = rules.every(rule => rule.required)
         return rulesRequired || required
       }
-      return required;
+      return required
     },
     modelValue() {
       return this.form.model[this.prop]
-    },
+    }
   },
   watch: {
     fieldValue(val) {
@@ -78,15 +79,24 @@ export default {
       this.fieldValue = val
     },
     value(val) {
-      this.fieldValue = val;
-    },
+      this.fieldValue = val
+
+      // https://github.com/airyland/vux/blob/v2/src/components/x-textarea/index.vue#L120
+      // 内容小于最大长度时需要手动更新文本框高度
+      const { type } = this
+      if (type === 'textarea' && !!val) {
+        this.$nextTick(() => {
+          this.$refs[`vux${type}`].updateAutosize()
+        })
+      }
+    }
   },
   data() {
     return {
       fieldValue: this.value || this.form.model[this.prop],
-      validateState: "",
-      validateMessage: this.message,
-    };
+      validateState: '',
+      validateMessage: this.message
+    }
   },
   methods: {
     getRules() {
@@ -102,7 +112,7 @@ export default {
     },
     validate(cb) {
       const rules = this.getRules()
-      
+
       const descriptor = {}
       descriptor[this.prop] = rules
 
@@ -115,22 +125,21 @@ export default {
         model,
         { firstFields: true },
         (errors, invalidFields) => {
-          this.validateState = errors ? "error" : "success"
-          this.validteMessage = errors ? errors[0].message : ""
+          this.validateState = errors ? 'error' : 'success'
+          this.validteMessage = errors ? errors[0].message : ''
           cb(this.validteMessage, invalidFields)
         }
-      );
-    },
+      )
+    }
   },
   created() {
     this.form.addField(this)
   },
-  mounted() {
-  },
+  mounted() {},
   beforeDestroy() {
     this.form.removeField(this)
   }
-};
+}
 </script>
 <style lang="less">
 .vux-form-field {
@@ -143,7 +152,7 @@ export default {
     color: #d9d9d9;
     border-top: 1px solid #d9d9d9;
     left: 15px;
-    content: "";
+    content: '';
     transform: scaleY(0.5);
     transform-origin: 0 0;
   }
@@ -151,29 +160,35 @@ export default {
     display: flex;
     align-items: flex-start;
     &::before {
-      content: "*";
+      content: '*';
       display: inline-block;
       vertical-align: middle;
       padding-left: 15px;
       padding-top: 12px;
       color: red;
     }
-    .weui-cell, .vux-cell-box, .vux-uploader {
+    .weui-cell,
+    .vux-cell-box,
+    .vux-uploader {
       flex: 1;
     }
   }
   &.is-error {
     color: red;
-    input::placeholder, textarea::placeholder {
+    input::placeholder,
+    textarea::placeholder {
       color: red;
     }
-    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
       color: red;
     }
-    input::-moz-placeholder, textarea::-moz-placeholder {
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
       color: red;
     }
-    input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
       color: red;
     }
   }

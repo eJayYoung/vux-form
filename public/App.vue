@@ -15,8 +15,14 @@
             type="textarea"
             title="Textarea"
             prop="bb"
+            v-model="formData.bb"
             placeholder="请输入多行文字"
             required
+            :props="{
+              max: 2000,
+              readonly: true,
+              autosize: true,
+            }"
           ></vux-form-field>
           <vux-form-field
             type="number"
@@ -26,19 +32,10 @@
               { required: true, }
             ]"
           ></vux-form-field>
-          <vux-form-field
-            required
-            prop="dd"
-            message="下拉是必填的噢"
-          >
+          <vux-form-field required prop="dd" message="下拉是必填的噢">
             <popup-radio title="PopupRadio" :options="options" v-model="formData.dd"></popup-radio>
           </vux-form-field>
-          <vux-form-field
-            required
-            prop="ee"
-            message="Picker是必填的噢"
-            :rules="pickerRules"
-          >
+          <vux-form-field required prop="ee" message="Picker是必填的噢" :rules="pickerRules">
             <popup-picker title="PopupPicker" :data="pickerOptions" v-model="formData.ee" show-name></popup-picker>
           </vux-form-field>
         </group>
@@ -51,27 +48,27 @@
 </template>
 
 <script>
-import { VuxForm, VuxFormField } from "../src";
-import { XButton, Group, PopupRadio, PopupPicker } from "vux";
+import { VuxForm, VuxFormField } from '../src'
+import { XButton, Group, PopupRadio, PopupPicker } from 'vux'
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     VuxForm,
     VuxFormField,
     XButton,
     Group,
     PopupRadio,
-    PopupPicker,
+    PopupPicker
   },
   data() {
     return {
       formData: {
-        aa: "123",
-        bb: "Talk is cheap, show me the code",
+        aa: '123',
+        bb: '',
         cc: 123,
         dd: 'A',
-        ee: ['A'],
+        ee: ['A']
       },
       formSchema: {
         groups: [
@@ -107,13 +104,19 @@ export default {
         {
           transform(value) {
             if (Array.isArray(value)) {
-              return value[0];
+              return value[0]
             }
             return value
           }
         }
-      ],
-    };
+      ]
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.formData.bb =
+        'Talk is cheap, show me the code. \n Talk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, '
+    }, 1000)
   },
   methods: {
     submit() {
@@ -124,21 +127,20 @@ export default {
         } else {
           this.$vux.toast.text('sumbit handler: valid success')
         }
-      });
-    },
+      })
+    }
   }
-};
+}
 </script>
 
 <style>
-
-
 </style>
 
 <style lang="less">
-@import "~vux/src/styles/reset.less";
+@import '~vux/src/styles/reset.less';
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -153,5 +155,4 @@ html, body {
     justify-content: space-between;
   }
 }
-
 </style>
