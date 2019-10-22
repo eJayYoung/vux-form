@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/eJayYoung/vux-form/compare/v0.1.2...v0.1.3) (2019-10-22)
+
+
+### Bug Fixes
+
+* textarea set max and autosize should updateAutosize manual ([19708ce](https://github.com/eJayYoung/vux-form/commit/19708ce))
+
+
+
 ## [0.1.2](https://github.com/eJayYoung/vux-form/compare/v0.1.1...v0.1.2) (2019-08-06)
 
 
