@@ -1,47 +1,122 @@
 <template>
   <div id="app">
     <div class="form-demo">
-      <vux-form ref="form" :model="formData" :schema="formSchema">
-        <group title="表单标准化">
+      <vux-form
+        ref="form"
+        :model="formData"
+        :schema="formSchema"
+      >
+        <group title="内置表单">
           <vux-form-field
             type="input"
             title="Input"
-            prop="aa"
+            prop="input"
             placeholder="请输入"
             required
             message="输入框是必填的噢"
+            :events="{
+              'on-blur': handleInputOnBlur
+            }"
           ></vux-form-field>
           <vux-form-field
             type="textarea"
             title="Textarea"
-            prop="bb"
-            v-model="formData.bb"
+            prop="textarea"
+            v-model="formData.textarea"
             placeholder="请输入多行文字"
             required
             :props="{
               max: 2000,
-              readonly: true,
               autosize: true,
             }"
           ></vux-form-field>
           <vux-form-field
             type="number"
             title="Number"
-            prop="cc"
-            :rules="[
-              { required: true, }
-            ]"
+            prop="number"
+            required
+            message="Number是必填的噢"
+            :props="{
+              fillable: true
+            }"
           ></vux-form-field>
-          <vux-form-field required prop="dd" message="下拉是必填的噢">
-            <popup-radio title="PopupRadio" :options="options" v-model="formData.dd"></popup-radio>
-          </vux-form-field>
-          <vux-form-field required prop="ee" message="Picker是必填的噢" :rules="pickerRules">
-            <popup-picker title="PopupPicker" :data="pickerOptions" v-model="formData.ee" show-name></popup-picker>
+          <vux-form-field
+            type="switch"
+            title="Switch"
+            prop="switch"
+            required
+            message="Switch是必填的噢"
+          ></vux-form-field>
+          <vux-form-field
+            type="radio"
+            title="PopupRadio"
+            prop="radio"
+            required
+            message="Radio是必填的噢"
+            :props="{
+              options
+            }"
+          ></vux-form-field>
+          <vux-form-field
+            type="picker"
+            title="PopupPicker"
+            prop="picker"
+            required
+            message="Picker是必填的噢"
+            :rules="pickerRules"
+            :props="{
+              data: pickerOptions
+            }"
+          ></vux-form-field>
+          <vux-form-field
+            type="upload"
+            title="Upload"
+            prop="upload"
+            required
+            message="上传组件是必填的噢"
+          ></vux-form-field>
+          <vux-form-field
+            type="calendar"
+            title="Calendar"
+            prop="calendar"
+            placeholder="请选择日历组件"
+            required
+            message="日历组件是必填的噢"
+          ></vux-form-field>
+          <vux-form-field
+            type="date"
+            title="Datetime"
+            prop="date"
+            placeholder="请选择时间组件"
+            required
+            message="时间组件是必填的噢"
+            :props="{
+              format: 'HH:mm'
+            }"
+          ></vux-form-field>
+        </group>
+        <group title="自定义组件">
+          <vux-form-field
+            prop="selector"
+            required
+            message="selector是必填的噢"
+          >
+            <selector
+              title="Selector"  
+              v-model="formData.selector"
+              :options="[
+                {key: true, value: '是'},
+                {key: false, value: '否'}
+              ]"
+            ></selector>
           </vux-form-field>
         </group>
       </vux-form>
       <group>
-        <x-button type="primary" @click.native="submit">Submit</x-button>
+        <x-button
+          type="primary"
+          @click.native="submit"
+        >Submit</x-button>
       </group>
     </div>
   </div>
@@ -49,7 +124,7 @@
 
 <script>
 import { VuxForm, VuxFormField } from '../src'
-import { XButton, Group, PopupRadio, PopupPicker } from 'vux'
+import { XButton, Group, Selector } from 'vux'
 
 export default {
   name: 'app',
@@ -58,17 +133,27 @@ export default {
     VuxFormField,
     XButton,
     Group,
-    PopupRadio,
-    PopupPicker
+    Selector,
   },
   data() {
     return {
       formData: {
-        aa: '123',
-        bb: '',
-        cc: 123,
-        dd: 'A',
-        ee: ['A']
+        input: '123',
+        textarea:
+          'Talk is cheap, show me the code. \n Talk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap',
+        number: 123,
+        switch: null,
+        radio: '小米',
+        picker: ['A'],
+        upload: [
+          {
+            url:
+              'https://raw.githubusercontent.com/eJayYoung/vux-uploader-component/master/assets/logo.png',
+          },
+        ],
+        date: null,
+        calendar: '',
+        selector: '',
       },
       formSchema: {
         groups: [
@@ -76,7 +161,7 @@ export default {
           //   title: '表单标准化',
           //   fields: [
           //     {
-          //       modelKey: 'aa',
+          //       modelKey: 'input',
           //       title: 'Input',
           //       type: 'input',
           //       placeholder: '请输入',
@@ -84,22 +169,22 @@ export default {
           //       ],
           //     },
           //     {
-          //       modelKey: 'bb',
+          //       modelKey: 'textarea',
           //       title: 'Textarea',
           //       type: 'textarea',
           //       placeholder: '请输入',
           //     },
           //     {
-          //       modelKey: 'cc',
+          //       modelKey: 'number',
           //       title: 'Number',
           //       type: 'number',
           //     },
           //   ],
           // },
-        ]
+        ],
       },
-      options: ['A', 'B', 'C'],
-      pickerOptions: [['A', 'B']],
+      options: ['苹果', '华为', '小米'],
+      pickerOptions: [['A', 'B', 'C']],
       pickerRules: [
         {
           transform(value) {
@@ -107,17 +192,12 @@ export default {
               return value[0]
             }
             return value
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.formData.bb =
-        'Talk is cheap, show me the code. \n Talk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, '
-    }, 1000)
-  },
+  mounted() {},
   methods: {
     submit() {
       this.$refs.form.submit((valid, field) => {
@@ -125,11 +205,17 @@ export default {
           const msg = Object.values(field)[0][0].message
           this.$vux.toast.text(msg)
         } else {
-          this.$vux.toast.text('sumbit handler: valid success')
+          this.$vux.toast.text('valid success!')
+          // eslint-disable-next-line no-console
+          console.log('formData:', JSON.parse(JSON.stringify(this.formData)))
         }
       })
+    },
+    handleInputOnBlur(value, $event) {
+      // eslint-disable-next-line no-console
+      console.log('handle input onblur:', value, $event)
     }
-  }
+  },
 }
 </script>
 
