@@ -101,6 +101,12 @@
             type="primary"
             @click.native="submit(1)"
           >Submit</x-button>
+          <x-button
+            @click.native="clearValidate(1)"
+          >clear validate</x-button>
+          <x-button
+            @click.native="resetForm(1)"
+          >Reset</x-button>
         </group>
       </group>
       <group
@@ -290,6 +296,12 @@ export default {
           console.log('formData:', JSON.parse(JSON.stringify(this[`formData${serial}`])))
         }
       })
+    },
+    clearValidate(serial) {
+      this.$refs[`form${serial}`].clearValidate()
+    },
+    resetForm(serial) {
+      this.$refs[`form${serial}`].resetFields()
     },
     handleInputOnBlur(value, $event) {
       // eslint-disable-next-line no-console
