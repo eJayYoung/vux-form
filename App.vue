@@ -213,8 +213,8 @@ export default {
         textarea:
           'Talk is cheap, show me the code. \n Talk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap',
         number: 123,
-        switch: null,
-        radio: '小米',
+        switch: false,
+        radio: '',
         picker: ['A'],
         upload: [
           {
