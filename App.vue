@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <div class="form-demo">
-      <vux-form ref="form" :model="formData" :schema="formSchema">
-        <group title="表单标准化">
+      <group title="内置表单组件">
+        <vux-form
+          ref="form"
+          :model="formData"
+        >
           <vux-form-field
             type="input"
             title="Input"
@@ -28,20 +31,90 @@
             type="number"
             title="Number"
             prop="cc"
+            required
             :rules="[
-              { required: true, }
+              {
+                validator(rules, value, cb) {
+                  if (value > 0) {
+                    cb()
+                  } else {
+                    cb('请输入大于0的数字')
+                  }
+                }
+              }
             ]"
           ></vux-form-field>
-          <vux-form-field required prop="dd" message="下拉是必填的噢">
-            <popup-radio title="PopupRadio" :options="options" v-model="formData.dd"></popup-radio>
+          <vux-form-field
+            type="datetime"
+            title="Datetime"
+            prop="ff"
+            required
+          ></vux-form-field>
+          <vux-form-field
+            type="radio"
+            title="PopupRadio"
+            required
+            prop="dd"
+            message="Radio是必填的噢"
+            :props="{
+              options,
+            }"
+          ></vux-form-field>
+          <vux-form-field
+            type="picker"
+            title="PopupPicker"
+            required
+            prop="ee"
+            message="Picker是必填的噢"
+            :rules="pickerRules"
+            :props="{
+              data: pickerOptions
+            }"
+          ></vux-form-field>
+          <vux-form-field
+            type="uploader"
+            title="Uploader"
+            prop="gg"
+            required
+            message="请上传图片"
+          ></vux-form-field>
+          <div class="btn-group">
+            <x-button
+              type="primary"
+              action-type="button"
+              @click.native="submit"
+            >Submit</x-button>
+          </div>
+        </vux-form>
+      </group>
+      <group title="自定义表单组件" style="margin-top: 20px">
+        <vux-form
+          ref="customForm"
+          :model="customFormData"
+        >
+          <vux-form-field
+            prop="aa"
+            :rules="[
+              {
+                required: true,
+                message: '请填写些文字'
+              }
+            ]"
+          >
+            <x-input
+              title="Custom Field"
+              text-align="right"
+              v-model="customFormData.aa"
+            ></x-input>
           </vux-form-field>
-          <vux-form-field required prop="ee" message="Picker是必填的噢" :rules="pickerRules">
-            <popup-picker title="PopupPicker" :data="pickerOptions" v-model="formData.ee" show-name></popup-picker>
-          </vux-form-field>
-        </group>
-      </vux-form>
-      <group>
-        <x-button type="primary" @click.native="submit">Submit</x-button>
+          <div class="btn-group">
+            <x-button
+              type="primary"
+              action-type="button"
+              @click.native="submitCustomForm"
+            >Submit</x-button>
+          </div>
+        </vux-form>
       </group>
     </div>
   </div>
@@ -49,7 +122,7 @@
 
 <script>
 import { VuxForm, VuxFormField } from '../src'
-import { XButton, Group, PopupRadio, PopupPicker } from 'vux'
+import { XButton, Group, XInput } from 'vux'
 
 export default {
   name: 'app',
@@ -58,48 +131,30 @@ export default {
     VuxFormField,
     XButton,
     Group,
-    PopupRadio,
-    PopupPicker
+    XInput
   },
   data() {
     return {
       formData: {
         aa: '123',
-        bb: '',
-        cc: 123,
-        dd: 'A',
-        ee: ['A']
+        bb:
+          'Talk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \n',
+        cc: 0,
+        dd: '',
+        ee: ['A'],
+        ff: '2020-11-11',
+        gg: [
+          {
+            url:
+              'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605499999423&di=3ffe2cd6df76e52f7f7dc3647868ff2b&imgtype=0&src=http%3A%2F%2Fattachments.gfan.com%2Fforum%2F201503%2F19%2F211608ztcq7higicydxhsy.jpg',
+          },
+        ],
       },
-      formSchema: {
-        groups: [
-          // {
-          //   title: '表单标准化',
-          //   fields: [
-          //     {
-          //       modelKey: 'aa',
-          //       title: 'Input',
-          //       type: 'input',
-          //       placeholder: '请输入',
-          //       rules: [
-          //       ],
-          //     },
-          //     {
-          //       modelKey: 'bb',
-          //       title: 'Textarea',
-          //       type: 'textarea',
-          //       placeholder: '请输入',
-          //     },
-          //     {
-          //       modelKey: 'cc',
-          //       title: 'Number',
-          //       type: 'number',
-          //     },
-          //   ],
-          // },
-        ]
+      customFormData: {
+        aa: ''
       },
       options: ['A', 'B', 'C'],
-      pickerOptions: [['A', 'B']],
+      pickerOptions: [['NBA', 'NFL', 'MLB']],
       pickerRules: [
         {
           transform(value) {
@@ -107,17 +162,12 @@ export default {
               return value[0]
             }
             return value
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.formData.bb =
-        'Talk is cheap, show me the code. \n Talk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, show me the codeTalk is cheap, '
-    }, 1000)
-  },
+  mounted() {},
   methods: {
     submit() {
       this.$refs.form.submit((valid, field) => {
@@ -126,10 +176,22 @@ export default {
           this.$vux.toast.text(msg)
         } else {
           this.$vux.toast.text('sumbit handler: valid success')
+          // eslint-disable-next-line no-console
+          console.log('formData:', JSON.parse(JSON.stringify(this.formData)))
+        }
+      })
+    },
+    submitCustomForm() {
+      this.$refs.customForm.submit((valid, field) => {
+        if (!valid) {
+          const msg = Object.values(field)[0][0].message
+          this.$vux.toast.text(msg)
+        } else {
+          this.$vux.toast.text(`sumbit handler: valid success \n ${JSON.stringify(this.customFormData)}`)
         }
       })
     }
-  }
+  },
 }
 </script>
 
@@ -153,6 +215,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+  .btn-group {
+    padding: 10px 20px;
   }
 }
 </style>
