@@ -4,7 +4,7 @@
   "main": "lib/vux-form.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build:demo": "vue-cli-service build",
+    "build:demo": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name vux-form --dest lib src/index.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
