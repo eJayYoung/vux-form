@@ -5,8 +5,8 @@ module.exports = {
   ? 'vux-form'
   : '/',
   configureWebpack: config => {
+    config.entry.app = './public/main.js'
     if (process.env.NODE_ENV === 'development') {
-      config.entry.app = './public/main.js'
       vuxLoader.merge(config, {
         plugins: ['vux-ui', 'duplicate-style']
       })
