@@ -30,12 +30,12 @@ export default {
   name: 'VuxFormField',
   inject: ['form'],
   components: {
-    ...Object.values(Array.from(components))
+    ...Object.values(Array.from(components)),
   },
   mixins: [mixin],
   model: {
     prop: 'value',
-    event: 'on-change'
+    event: 'on-change',
   },
   props: {
     prop: String,
@@ -47,7 +47,7 @@ export default {
     events: Object,
     rules: [Object, Array],
     required: Boolean,
-    message: String
+    message: String,
   },
   computed: {
     fieldComponent() {
@@ -60,14 +60,14 @@ export default {
     isRequired() {
       const { rules, required } = this
       if (rules && rules.length) {
-        const rulesRequired = rules.every(rule => rule.required)
+        const rulesRequired = rules.every((rule) => rule.required)
         return rulesRequired || required
       }
       return required
     },
     modelValue() {
       return this.form.model[this.prop]
-    }
+    },
   },
   watch: {
     fieldValue(val) {
@@ -89,13 +89,13 @@ export default {
           this.$refs[`vux${type}`].updateAutosize()
         })
       }
-    }
+    },
   },
   data() {
     return {
       fieldValue: this.value || this.form.model[this.prop],
       validateState: '',
-      validateMessage: this.message
+      validateMessage: this.message,
     }
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
       if (this.message && this.isRequired) {
         requiredRule.message = this.message
       }
-      return selfRules.some(rules => rules.required)
+      return selfRules.some((rules) => rules.required)
         ? [].concat(selfRules)
         : [].concat(selfRules, requiredRule)
     },
@@ -130,15 +130,14 @@ export default {
           cb(this.validteMessage, invalidFields)
         }
       )
-    }
+    },
   },
   created() {
     this.form.addField(this)
   },
-  mounted() {},
   beforeDestroy() {
     this.form.removeField(this)
-  }
+  },
 }
 </script>
 <style lang="less">

@@ -4,17 +4,19 @@
   "main": "lib/vux-form.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build:demo": "vue-cli-service build",
+    "build:demo": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name vux-form --dest lib src/index.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "version": "npm run changelog"
+    "version": "npm run changelog",
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "async-validator": "^1.11.5",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vux": "^2.9.2"
+    "vux": "^2.9.2",
+    "vux-uploader-component": "^1.0.23"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
@@ -24,6 +26,7 @@
     "conventional-changelog-cli": "^2.0.5",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "fastclick": "^1.0.6",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "vue-cli-plugin-vux": "^3.0.0",
