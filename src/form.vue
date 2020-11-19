@@ -79,6 +79,7 @@ export default {
       let invalidFields = {}
       formFields.forEach(field => {
         field.validate((message, field) => {
+          console.log('field:', message, field)
           if (message) valid = false
           invalidFields = Object.assign({}, invalidFields, field)
           if (typeof cb === 'function' && ++count === formFields.length) {
