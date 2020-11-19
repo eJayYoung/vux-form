@@ -1,3 +1,4 @@
+
 <template>
   <div id="app">
     <div class="form-demo">
@@ -13,6 +14,13 @@
             placeholder="请输入"
             required
             message="输入框是必填的噢"
+            :props="{
+              'text-align': 'right'
+            }"
+            :events="{
+              'on-focus': handleInputFocus,
+              'on-blur': handleInputBlur
+            }"
           ></vux-form-field>
           <vux-form-field
             type="textarea"
@@ -41,7 +49,7 @@
                     cb('请输入大于0的数字')
                   }
                 }
-              }
+              },
             ]"
           ></vux-form-field>
           <vux-form-field
@@ -121,6 +129,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import { VuxForm, VuxFormField } from '../src'
 import { XButton, Group, XInput } from 'vux'
 
@@ -172,11 +181,12 @@ export default {
     submit() {
       this.$refs.form.submit((valid, field) => {
         if (!valid) {
+          console.log(field)
           const msg = Object.values(field)[0][0].message
           this.$vux.toast.text(msg)
         } else {
           this.$vux.toast.text('sumbit handler: valid success')
-          // eslint-disable-next-line no-console
+          
           console.log('formData:', JSON.parse(JSON.stringify(this.formData)))
         }
       })
@@ -190,6 +200,12 @@ export default {
           this.$vux.toast.text(`sumbit handler: valid success \n ${JSON.stringify(this.customFormData)}`)
         }
       })
+    },
+    handleInputFocus(value, $event) {
+      console.log('handle input focus:', value, $event);
+    },
+    handleInputBlur(value, $event) {
+      console.log('handle input blur:', value, $event);
     }
   },
 }
