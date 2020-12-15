@@ -251,23 +251,11 @@ yarn add vux-form
 
 ## Form Instance Methods
 
-### submit
-校验表单的方法
-
-```javascript
-
-function((
-  valid: Boolean,
-  invalidFields: {
-    [key: string]: {
-      field: string;
-      message: string;
-    }[]
-  }
-) => {}): Promise
-```
-第一个参数`valid`，为`Boolean`类型，返回`true`代表所有表单域校验通过，返回`false`代表有的表单域校验没有通过<br/>
-当第一个参数`valid`为`false`的时候，第二个参数`invalidFields`会返回一个对象，对象的`key`为未通过校验的表单域`VuxFormField`的`prop`，对应`key`的值为一个数组对象，返回该表单域未通过校验的错误集
+| method | description | params |
+| ------ | ----------- | ------ |
+| validate | 对整个表单进行校验的方法，参数为一个回调函数，该回调函数会在校验结束后被调用，并传入两个参数：valid(是否校验通过),invalidFields(未通过校验的字段)，若不传入回调函数，则会返回一个promise | Function(callback: Function(valid: Boolean, invalidFields: Object) |
+| submit | 同上 | 同上 |
+| resetFields | 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 | - |
 
 ## TodoList
 

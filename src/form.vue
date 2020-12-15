@@ -79,6 +79,7 @@ export default {
       let invalidFields = {}
       formFields.forEach(field => {
         field.validate((message, field) => {
+          // eslint-disable-next-line no-console
           console.log('field:', message, field)
           if (message) valid = false
           invalidFields = Object.assign({}, invalidFields, field)
@@ -100,6 +101,15 @@ export default {
         this.formFields.splice(this.formFields.indexOf(field), 1);
       }
     },
+    resetFields() {
+      if (!this.model) {
+        // eslint-disable-next-line no-console
+        console.warn('[vux-form warn]model is required for resetFields to work.')
+      }
+      this.formFields.forEach(field => {
+        field.resetField()
+      })
+    }
   }
 };
 </script>

@@ -96,6 +96,15 @@ export default {
       fieldValue: this.value || this.form.model[this.prop],
       validateState: '',
       validateMessage: this.message,
+      initialValue: '',
+    }
+  },
+  mounted() {
+    const { fieldValue } = this
+    if (Array.isArray(fieldValue)) {
+      this.initialValue = [].concat(fieldValue)
+    } else {
+      this.initialValue = fieldValue
     }
   },
   methods: {
@@ -130,6 +139,21 @@ export default {
           cb(this.validteMessage, invalidFields)
         }
       )
+    },
+    clearValidate() {
+      this.validateState = ''
+      this.validateMessage = ''
+    },
+    resetField() {
+      const { initialValue } = this
+      if (Array.isArray(initialValue)) {
+        this.fieldValue = [].concat(initialValue)
+      } else {
+        this.fieldValue = initialValue
+      }
+      this.$nextTick(() => {
+        this.clearValidate()
+      })
     },
   },
   created() {

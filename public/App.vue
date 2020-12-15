@@ -92,6 +92,11 @@
               action-type="button"
               @click.native="submit"
             >Submit</x-button>
+            <x-button
+              type="primary"
+              action-type="button"
+              @click.native="reset"
+            >Reset</x-button>
           </div>
         </vux-form>
       </group>
@@ -150,7 +155,7 @@ export default {
           'Talk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \nTalk is cheap, show me the code. \n',
         cc: 0,
         dd: '',
-        ee: ['A'],
+        ee: ['NBA'],
         ff: '2020-11-11',
         gg: [
           {
@@ -190,6 +195,9 @@ export default {
           console.log('formData:', JSON.parse(JSON.stringify(this.formData)))
         }
       })
+    },
+    reset() {
+      this.$refs.form.resetFields()
     },
     submitCustomForm() {
       this.$refs.customForm.submit((valid, field) => {
