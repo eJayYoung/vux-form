@@ -97,10 +97,18 @@
               action-type="button"
               @click.native="reset"
             >Reset</x-button>
+            <x-button
+              type="primary"
+              action-type="button"
+              @click.native="clearValidate"
+            >clearValidate</x-button>
           </div>
         </vux-form>
       </group>
-      <group title="自定义表单组件" style="margin-top: 20px">
+      <group
+        title="自定义表单组件"
+        style="margin-top: 20px"
+      >
         <vux-form
           ref="customForm"
           :model="customFormData"
@@ -145,7 +153,7 @@ export default {
     VuxFormField,
     XButton,
     Group,
-    XInput
+    XInput,
   },
   data() {
     return {
@@ -165,7 +173,7 @@ export default {
         ],
       },
       customFormData: {
-        aa: ''
+        aa: '',
       },
       options: ['A', 'B', 'C'],
       pickerOptions: [['NBA', 'NFL', 'MLB']],
@@ -191,7 +199,7 @@ export default {
           this.$vux.toast.text(msg)
         } else {
           this.$vux.toast.text('sumbit handler: valid success')
-          
+
           console.log('formData:', JSON.parse(JSON.stringify(this.formData)))
         }
       })
@@ -199,22 +207,29 @@ export default {
     reset() {
       this.$refs.form.resetFields()
     },
+    clearValidate() {
+      this.$refs.form.clearValidate()
+    },
     submitCustomForm() {
       this.$refs.customForm.submit((valid, field) => {
         if (!valid) {
           const msg = Object.values(field)[0][0].message
           this.$vux.toast.text(msg)
         } else {
-          this.$vux.toast.text(`sumbit handler: valid success \n ${JSON.stringify(this.customFormData)}`)
+          this.$vux.toast.text(
+            `sumbit handler: valid success \n ${JSON.stringify(
+              this.customFormData
+            )}`
+          )
         }
       })
     },
     handleInputFocus(value, $event) {
-      console.log('handle input focus:', value, $event);
+      console.log('handle input focus:', value, $event)
     },
     handleInputBlur(value, $event) {
-      console.log('handle input blur:', value, $event);
-    }
+      console.log('handle input blur:', value, $event)
+    },
   },
 }
 </script>

@@ -256,12 +256,14 @@ yarn add vux-form
 | validate | 对整个表单进行校验的方法，参数为一个回调函数，该回调函数会在校验结束后被调用，并传入两个参数：valid(是否校验通过),invalidFields(未通过校验的字段)，若不传入回调函数，则会返回一个promise | Function(callback: Function(valid: Boolean, invalidFields: Object) |
 | submit | 同上 | 同上 |
 | resetFields | 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 | - |
+| clearValidate | 移除表单项的校验结果，传入待移除的表单项prop或者prop组成的数组，如不传则移除整个表单的校验结果 | Function(props: array | string) |
 
 ## TodoList
 
 - [x] 内置类型扩展及完善
 - [x] 统一的表单样式及校验方式
-- [ ] 重置表单方法`reset`
+- [x] 重置表单方法`resetField`
+- [x] 清空校验方法`clearValidate`
 
 
 ## Development
