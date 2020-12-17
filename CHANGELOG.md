@@ -1,3 +1,7 @@
+## [0.1.5](https://github.com/eJayYoung/vux-form/compare/v0.1.5-beta...v0.1.5) (2020-12-17)
+
+
+
 ## [0.1.5-beta](https://github.com/eJayYoung/vux-form/compare/v0.1.4...v0.1.5-beta) (2020-12-17)
 
 
