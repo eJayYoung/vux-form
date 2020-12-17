@@ -278,12 +278,12 @@ yarn serve
 
 ### Compiles and minifies for demo
 ```
-yarn run build:demo
+yarn build:demo
 ```
 
 ### build for production with minification
 ```
-yarn run build:lib
+yarn build:lib
 ```
 
 ### Lints and fixes files
@@ -294,6 +294,7 @@ yarn run lint
 ### publish package
 ```
 npm version patch
+yarn build:lib
 npm publish
 ```
 
