@@ -7,9 +7,9 @@ module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV !== 'production') {
       config.entry.app = './public/main.js'
-      vuxLoader.merge(config, {
-        plugins: ['vux-ui', 'duplicate-style']
-      })
     }
+    vuxLoader.merge(config, {
+      plugins: ['vux-ui', 'duplicate-style']
+    })
   }
 }
