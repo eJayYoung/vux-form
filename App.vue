@@ -11,7 +11,7 @@
             type="input"
             title="Input"
             prop="aa"
-            placeholder="请输入"
+            placeholder="please enter"
             required
             message="输入框是必填的噢"
             :props="{
@@ -137,6 +137,55 @@
           </div>
         </vux-form>
       </group>
+      <group
+        title="插槽"
+        style="margin-top: 20px"
+      >
+        <vux-form
+          ref="slotForm"
+          :model="slotFormData"
+        >
+          <vux-form-field
+            type="input"
+            title="named slot"
+            prop="aa"
+            placeholder="please enter"
+          >
+            <span slot="label">named slot label</span>
+            <x-button
+              slot="right"
+              type="primary"
+              action-type="button"
+              mini
+              @click.native="sendCode"
+            >发送验证码</x-button>
+          </vux-form-field>
+          <vux-form-field
+            type="radio"
+            title="scope slot"
+            prop="bb"
+            :props="{
+              options
+            }"
+          >
+            <template
+              slot-scope="props"
+              slot="each-item"
+            >
+              <p>
+                custom item
+                <img
+                  src="https://github.com/airyland/vux/blob/v2/logo.png?raw=true"
+                  class="vux-radio-icon"
+                />
+                {{ props.label }}
+                <br />
+                <span style="color:#666;">{{ props.index + 1 }} another line</span>
+              </p>
+            </template>
+          </vux-form-field>
+        </vux-form>
+      </group>
     </div>
   </div>
 </template>
@@ -187,6 +236,10 @@ export default {
           },
         },
       ],
+      slotFormData: {
+        aa: '',
+        bb: '',
+      },
     }
   },
   mounted() {},
@@ -230,6 +283,9 @@ export default {
     handleInputBlur(value, $event) {
       console.log('handle input blur:', value, $event)
     },
+    sendCode() {
+      this.$vux.toast.text('验证码已发送')
+    }
   },
 }
 </script>
