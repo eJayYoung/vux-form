@@ -217,6 +217,73 @@ yarn add vux-form
 </script>
 ```
 
+### Named slot & Scoped slot
+```html
+<template>
+  <vux-form
+    ref="form"
+    :model="formData"
+  >
+    <vux-form-field
+      type="input"
+      title="named slot"
+      prop="aa"
+      placeholder="please enter"
+    >
+      <span slot="label">named slot label</span>
+      <x-button
+        slot="right"
+        type="primary"
+        action-type="button"
+        mini
+      >发送验证码</x-button>
+    </vux-form-field>
+    <vux-form-field
+      type="radio"
+      title="scope slot"
+      prop="bb"
+      :props="{
+        options
+      }"
+    >
+      <template
+        slot-scope="props"
+        slot="each-item"
+      >
+        <p>
+          custom item
+          <img
+            src="https://github.com/airyland/vux/blob/v2/logo.png?raw=true"
+            class="vux-radio-icon"
+          />
+          {{ props.label }}
+          <br />
+          <span style="color:#666;">{{ props.index + 1 }} another line</span>
+        </p>
+      </template>
+    </vux-form-field>
+  </vux-form-field>
+</template>
+<script>
+  import { VuxForm, VuxFormField } from 'vux-form
+  export default {
+    components: {
+      VuxForm,
+      VuxFormField
+    },
+    data() {
+      return {
+        formData: {
+          aa: '',
+          bb: '',
+        },
+        options: ['A', 'B', 'C'],
+      }
+    }
+  }
+</script>
+```
+
 ## Props
 
 ### VuxForm
@@ -248,6 +315,9 @@ yarn add vux-form
 | radio | [popup-radio](https://doc.vux.li/zh-CN/components/popup-radio.html) |
 | uploader | [vux-uploader-component](https://github.com/eJayYoung/vux-uploader-component) |
 
+## Slot
+当使用自定义组件时，vuxField的插槽用于渲染自定义组件，[见demo](#custom-field) <br/>
+当使用内置组件时，vuxField的插槽会作为内置组件的插槽，[见demo](#Scoped-slot)
 
 ## Form Instance Methods
 
@@ -264,6 +334,7 @@ yarn add vux-form
 - [x] 统一的表单样式及校验方式
 - [x] 重置表单方法`resetField`
 - [x] 清空校验方法`clearValidate`
+- [x] 支持命名插槽和作用域插槽
 
 
 ## Development
