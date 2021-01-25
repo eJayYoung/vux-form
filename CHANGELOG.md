@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/eJayYoung/vux-form/compare/v0.1.6...v0.1.7) (2021-01-25)
+
+
+### Features
+
+* built-in components support named slot and scoped slot ([14be563](https://github.com/eJayYoung/vux-form/commit/14be5637c9c4cc16538c5f16bb2ae9f7e3033abd))
+
+
+
 ## [0.1.6](https://github.com/eJayYoung/vux-form/compare/v0.1.5...v0.1.6) (2020-12-17)
 
 
