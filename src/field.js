@@ -1,43 +1,10 @@
-<template>
-  <div
-    class="vux-form-field"
-    :class="{
-    'is-required': isRequired,
-    'is-success': validateState === 'success',
-    'is-error': validateState === 'error',
-  }"
-  >
-    <slot>
-      <component
-        :is="fieldComponent"
-        :placeholder="placeholder"
-        :title="title"
-        :required="isRequired"
-        :ref="`vux${type}`"
-        v-model="fieldValue"
-        v-bind="props"
-        v-on="events"
-      >
-        <template
-          v-for="(_, slot) of $scopedSlots"
-          v-slot:[slot]="scope"
-        >
-          <slot
-            :name="slot"
-            v-bind="scope"
-          />
-        </template>
-      </component>
-    </slot>
-  </div>
-</template>
-<script>
 import AsyncValidator from 'async-validator'
 import components from './components'
 import mixin from './mixin'
+import './field.less'
 
-export default {
-  name: 'VuxFormField',
+const vuxField = {
+  name: 'VuxField',
   inject: ['form'],
   components: {
     ...Object.values(Array.from(components)),
@@ -172,59 +139,51 @@ export default {
   beforeDestroy() {
     this.form.removeField(this)
   },
-}
-</script>
-<style lang="less">
-.vux-form-field {
-  position: relative;
-  &:after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 1px;
-    color: #d9d9d9;
-    border-top: 1px solid #d9d9d9;
-    left: 15px;
-    content: '';
-    transform: scaleY(0.5);
-    transform-origin: 0 0;
-  }
-  &.is-required {
-    display: flex;
-    align-items: flex-start;
-    &::before {
-      content: '*';
-      display: inline-block;
-      vertical-align: middle;
-      padding-left: 15px;
-      padding-top: 12px;
-      color: red;
+  render(h) {
+    const {
+      fieldComponent,
+      fieldValue,
+      type,
+      title,
+      placeholder,
+      props,
+      isRequired,
+      validateState
+    } = this
+
+    let fieldChildren
+
+    if (type) {
+      // https://stackoverflow.com/a/50892881/6472444
+      const children = Object.keys(this.$slots).map(slot => h('template', { slot }, this.$slots[slot]))
+      const typeVNode = h(fieldComponent, {
+        ref: `vux${type}`,
+        props: {
+          title,
+          placeholder,
+          required: isRequired,
+          value: fieldValue,
+          ...props,
+        },
+        on: this.events,
+        scopedSlots: this.$scopedSlots,
+      }, children)
+   
+      fieldChildren = [typeVNode]
+    } else {
+      fieldChildren = this.$slots.default
     }
-    .weui-cell,
-    .vux-cell-box,
-    .vux-uploader {
-      flex: 1;
-    }
-  }
-  &.is-error {
-    color: red;
-    input::placeholder,
-    textarea::placeholder {
-      color: red;
-    }
-    input::-webkit-input-placeholder,
-    textarea::-webkit-input-placeholder {
-      color: red;
-    }
-    input::-moz-placeholder,
-    textarea::-moz-placeholder {
-      color: red;
-    }
-    input:-ms-input-placeholder,
-    textarea:-ms-input-placeholder {
-      color: red;
-    }
+
+    return h('div', {
+      class: {
+        'vux-form-field': true,
+        'is-required': isRequired,
+        'is-success': validateState === 'success',
+        'is-error': validateState === 'error',
+      }
+    }, fieldChildren)
   }
 }
-</style>
+
+export default vuxField
 

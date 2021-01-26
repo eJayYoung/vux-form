@@ -1,0 +1,51 @@
+.vux-form-field {
+  position: relative;
+  &:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1px;
+    color: #d9d9d9;
+    border-top: 1px solid #d9d9d9;
+    left: 15px;
+    content: '';
+    transform: scaleY(0.5);
+    transform-origin: 0 0;
+  }
+  &.is-required {
+    display: flex;
+    align-items: flex-start;
+    &::before {
+      content: '*';
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 15px;
+      padding-top: 12px;
+      color: red;
+    }
+    .weui-cell,
+    .vux-cell-box,
+    .vux-uploader {
+      flex: 1;
+    }
+  }
+  &.is-error {
+    color: red;
+    input::placeholder,
+    textarea::placeholder {
+      color: red;
+    }
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: red;
+    }
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
+      color: red;
+    }
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+      color: red;
+    }
+  }
+}
