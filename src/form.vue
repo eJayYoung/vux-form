@@ -20,7 +20,7 @@
   </form>
 </template>
 <script>
-import { Group } from 'vux'
+import Group from 'vux/src/components/group'
 import VuxFormField from './field'
 
 export default {
