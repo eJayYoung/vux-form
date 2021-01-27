@@ -1,3 +1,12 @@
+## [0.1.8](https://github.com/eJayYoung/vux-form/compare/v0.1.7...v0.1.8) (2021-01-27)
+
+
+### Performance Improvements
+
+* change vux component import to reduce build bundle size ([1fc03a0](https://github.com/eJayYoung/vux-form/commit/1fc03a0d2f49e60cc7bdbd0b8b87cec75dedd7ae))
+
+
+
 ## [0.1.7](https://github.com/eJayYoung/vux-form/compare/v0.1.6...v0.1.7) (2021-01-25)
 
 
