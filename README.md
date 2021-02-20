@@ -58,128 +58,99 @@ yarn add vux-form
 
 ### pass built-in components self props
 ```html
-<template>
-  <vux-form
-    ref="form"
-    :model="formData"
-  >
-    <vux-form-field
-      type="input"
-      prop="aa"
-      title="Input"
-      placeholder="please enter"
-      :props="{
-        'type': 'email',
-        'readonly': true,
-        'text-align': 'right'
-      }"
-    ></vux-form-field>
-  </vux-form-field>
-</template>
-<script>
-  import { VuxForm, VuxFormField } from 'vux-form
-  export default {
-    components: {
-      VuxForm,
-      VuxFormField
-    },
-    data() {
-      return {
-        formData: {
-          aa: ''
-        }
-      }
-    }
-  }
-</script>
+<vux-form-field
+  type="input"
+  prop="aa"
+  title="Input"
+  placeholder="please enter"
+  :props="{
+    'type': 'email',
+    'readonly': true,
+    'text-align': 'right'
+  }"
+></vux-form-field>
 ```
 
 ### pass built-in components self events
 ```html
-<template>
-  <vux-form
-    ref="form"
-    :model="formData"
-  >
-    <vux-form-field
-      type="input"
-      prop="aa"
-      title="Input"
-      placeholder="please enter"
-      :events="{
-        'on-focus': handleInputFocus,
-        'on-blur': handleInputBlur
-      }"
-    ></vux-form-field>
-  </vux-form-field>
-</template>
-<script>
-  import { VuxForm, VuxFormField } from 'vux-form
-
-  export default {
-    components: {
-      VuxForm,
-      VuxFormField
-    },
-    methods: {
-      handleInputFocus(value, $event) {
-        console.log('handle input focus:', value, $event);
-      },
-      handleInputBlur(value, $event) {
-        console.log('handle input blur:', value, $event);
-      }
-    }
-  }
-</script>
+<vux-form-field
+  type="input"
+  prop="aa"
+  title="Input"
+  placeholder="please enter"
+  :events="{
+    'on-focus': handleInputFocus,
+    'on-blur': handleInputBlur
+  }"
+></vux-form-field>
 ```
-
+### pass built-in components named slot
+```html
+<vux-form-field
+  type="input"
+  title="named slot"
+  prop="aa"
+  placeholder="please enter"
+>
+  <span slot="label">named slot label</span>
+  <x-button
+    slot="right"
+    type="primary"
+    action-type="button"
+    mini
+  >发送验证码</x-button>
+</vux-form-field>
+```
+### pass built-in components scoped slot
+```html
+<vux-form-field
+  type="radio"
+  title="scope slot"
+  prop="bb"
+  :props="{
+    options
+  }"
+>
+  <template
+    slot-scope="props"
+    slot="each-item"
+  >
+    <p>
+      custom item
+      <img
+        src="https://github.com/airyland/vux/blob/v2/logo.png?raw=true"
+        class="vux-radio-icon"
+      />
+      {{ props.label }}
+      <br />
+      <span style="color:#666;">{{ props.index + 1 }} another line</span>
+    </p>
+  </template>
+</vux-form-field>
+```
 ### validate rules
 ```html
-<template>
-  <vux-form
-    ref="form"
-    :model="formData"
-  >
-    <vux-form-field
-      type="input"
-      prop="aa"
-      title="Input"
-      placeholder="please enter"
-      :props="{
-        type: 'number'
-      }"
-      :rules="[
-        { required: true, message: 'input is required' },
-        {
-          validator(rules, value, cb) {
-            if (value > 0) {
-              cb()
-            } else {
-              cb('请输入大于0的数字')
-            }
-          }
+<vux-form-field
+  type="input"
+  prop="aa"
+  title="Input"
+  placeholder="please enter"
+  :props="{
+    type: 'number'
+  }"
+  :rules="[
+    { required: true, message: 'input is required' },
+    {
+      validator(rules, value, cb) {
+        if (value > 0) {
+          cb()
+        } else {
+          cb('请输入大于0的数字')
         }
-      ]"
-    ></vux-form-field>
-  </vux-form-field>
-</template>
-<script>
-  import { VuxForm, VuxFormField } from 'vux-form
-
-  export default {
-    components: {
-      VuxForm,
-      VuxFormField
-    },
-    methods: {
-      handleInputFocus(value, $event) {
-        console.log('handle input focus:', value, $event);
-      },
-      handleInputBlur(value, $event) {
-        console.log('handle input blur:', value, $event);
       }
     }
-  }
+  ]"
+></vux-form-field>
 </script>
 ```
 
@@ -216,76 +187,7 @@ yarn add vux-form
   }
 </script>
 ```
-
-### Named slot & Scoped slot
-```html
-<template>
-  <vux-form
-    ref="form"
-    :model="formData"
-  >
-    <vux-form-field
-      type="input"
-      title="named slot"
-      prop="aa"
-      placeholder="please enter"
-    >
-      <span slot="label">named slot label</span>
-      <x-button
-        slot="right"
-        type="primary"
-        action-type="button"
-        mini
-      >发送验证码</x-button>
-    </vux-form-field>
-    <vux-form-field
-      type="radio"
-      title="scope slot"
-      prop="bb"
-      :props="{
-        options
-      }"
-    >
-      <template
-        slot-scope="props"
-        slot="each-item"
-      >
-        <p>
-          custom item
-          <img
-            src="https://github.com/airyland/vux/blob/v2/logo.png?raw=true"
-            class="vux-radio-icon"
-          />
-          {{ props.label }}
-          <br />
-          <span style="color:#666;">{{ props.index + 1 }} another line</span>
-        </p>
-      </template>
-    </vux-form-field>
-  </vux-form-field>
-</template>
-<script>
-  import { VuxForm, VuxFormField } from 'vux-form
-  export default {
-    components: {
-      VuxForm,
-      VuxFormField
-    },
-    data() {
-      return {
-        formData: {
-          aa: '',
-          bb: '',
-        },
-        options: ['A', 'B', 'C'],
-      }
-    }
-  }
-</script>
-```
-
 ## Props
-
 ### VuxForm
 | property | type | default | description |
 | -------- | ---- | ------- | ----------- |
@@ -316,15 +218,15 @@ yarn add vux-form
 | uploader | [vux-uploader-component](https://github.com/eJayYoung/vux-uploader-component) |
 
 ## Slot
-当使用自定义组件时，vuxField的插槽用于渲染自定义组件，[见demo](#custom-field) <br/>
-当使用内置组件时，vuxField的插槽会作为内置组件的插槽，[见demo](#Scoped-slot)
+当使用自定义组件时，vuxFormField的插槽用于渲染自定义组件，[见demo](#custom-field) <br/>
+当使用内置组件时，vuxFormField的插槽会作为内置组件的插槽，[见demo](#pass-built-in-components-named-slot)
 
 ## Form Instance Methods
 
 | method | description | params |
 | ------ | ----------- | ------ |
 | validate | 对整个表单进行校验的方法，参数为一个回调函数，该回调函数会在校验结束后被调用，并传入两个参数：valid(是否校验通过),invalidFields(未通过校验的字段)，若不传入回调函数，则会返回一个promise | Function(callback: Function(valid: Boolean, invalidFields: Object) |
-| submit | 同上 | 同上 |
+| submit | 提交表单 | 同上 |
 | resetFields | 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 | - |
 | clearValidate | 移除表单项的校验结果，传入待移除的表单项prop或者prop组成的数组，如不传则移除整个表单的校验结果 | Function(props: array | string) |
 
@@ -364,8 +266,8 @@ yarn run lint
 
 ### publish package
 ```
-npm version patch
 yarn build:lib
+npm version patch
 npm publish
 ```
 
